@@ -20,9 +20,10 @@ namespace Lab1_MSD
         //PRIVATE FUNCTIONS
         private void Sorting(int[] InArray, SORTING_DIR Dir, SORTING_TYPE SType)
         {
-            for (int i = (Dir == SORTING_DIR.ASC_SORT) ? 0 : (InArray.Length - 1); 
-                (Dir == SORTING_DIR.ASC_SORT) ? (i < InArray.Length) : ( i >= 0); 
-                i += (Dir==SORTING_DIR.ASC_SORT) ? 1 : -1)
+            bool isSortAsc = (Dir == SORTING_DIR.ASC_SORT) ? true : false;
+            for (int i = isSortAsc ? 0 : (InArray.Length - 1);
+                isSortAsc ? (i < InArray.Length) : ( i >= 0); 
+                i += isSortAsc ? 1 : -1)
             {
 
             }
