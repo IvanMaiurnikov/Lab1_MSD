@@ -11,12 +11,15 @@ namespace Lab1_MSD
 {
     public class ArrayAssort
     {
+        // PUBLIC TYPES
+        public enum SORTING_DIR { RND_SORT, ASC_SORT, DESC_SORT };
+        public enum SORTING_TYPE { SHAKER_SORT, INSERTION_SORT };
+
         //PRIVATE VARs
         private int[] arr;
+        private SORTING_TYPE SType;
+        private SORTING_DIR  SDir;
 
-        // PUBLIC TYPES
-        public enum SORTING_DIR  { RND_SORT, ASC_SORT, DESC_SORT };
-        public enum SORTING_TYPE { SHAKER_SORT, INSERTION_SORT};
 
         //метод обміну елементів
         static void Swap(ref int e1, ref int e2)
@@ -27,63 +30,65 @@ namespace Lab1_MSD
         }
 
         //сортування вставками
-        static int[] InsertionSort(int[] InArray, SORTING_DIR Dir)
+        private void InsertionSort(SORTING_DIR Dir)
         {
             bool isSortAsc = (Dir == SORTING_DIR.ASC_SORT) ? true : false;
-            for (int i = isSortAsc ? 0 : (InArray.Length - 1);
-                isSortAsc ? (i < InArray.Length) : (i >= 0);
+            var len = arr.Length;
+            for (int i = isSortAsc ? 0 : (len - 1);
+                isSortAsc ? (i < len) : (i >= 0);
                 i += isSortAsc ? 1 : -1)
             {
-                var key = InArray[i];
+                var key = arr[i];
                 var j = i;
                 var inc = isSortAsc ? -1 : 1;
-                while ((j > 1) && (InArray[j - 1] > key))
+                while (isSortAsc ? ((j > 1) && (arr[j + inc] > key)) : ( j < (len - 1)  && (arr[j + inc] < key)) )
                 {
-                    Swap(ref InArray[j - 1], ref InArray[j]);
+                    Swap(ref arr[j + inc], ref arr[j]);
                     j += inc;
                 }
 
-                InArray[j] = key;
+                arr[j] = key;
             }
+        }
 
-            return InArray;
+        private void ShakerSort(SORTING_DIR Dir)
+        {
+
         }
 
         //PRIVATE FUNCTIONS
-        private int[] Sorting(int[] InArray, SORTING_DIR Dir, SORTING_TYPE SType)
+        public void SortingAndPrint(SORTING_TYPE t, SORTING_DIR d)
         {
-            bool isSortAsc = (Dir == SORTING_DIR.ASC_SORT) ? true : false;
-            for (int i = isSortAsc ? 0 : (InArray.Length - 1);
-                isSortAsc ? (i < InArray.Length) : ( i >= 0); 
-                i += isSortAsc ? 1 : -1)
+            if( t != SType || d != SDir)
             {
 
             }
-            return InArray;
+            
         }
 
-
         //PUBLIC FUNCTIONS
-        public ArrayAssort(int ArraySize, int start, int end, SORTING_DIR SDir)
+        public ArrayAssort(int ArraySize, int start, int end, SORTING_DIR d = SORTING_DIR.RND_SORT, SORTING_TYPE t = SORTING_TYPE.INSERTION_SORT)
         {
             arr = new int[ArraySize];
             var rand = new Random();
             for (int i = 0; i < ArraySize; i++)
             {
-                this.arr[i] = rand.Next(start, end+1);
+                arr[i] = rand.Next(start, end+1);
             }
-
-            switch (SDir)
+            SDir = d;
+            SType = t;
+            if (SDir != SORTING_DIR.RND_SORT)
             {
-                case SORTING_DIR.RND_SORT:
+                switch (SType)
+                {
+                    case SORTING_TYPE.INSERTION_SORT:
+                        InsertionSort(SDir);
+                        break;
 
-                    break;
-                case SORTING_DIR.ASC_SORT:
+                    case SORTING_TYPE.SHAKER_SORT:
 
-                    break;
-                case SORTING_DIR.DESC_SORT:
-
-                    break;
+                        break;
+                }
             }
         }
 
@@ -95,9 +100,7 @@ namespace Lab1_MSD
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to sorting program!\nChoose the size of array.\n Rows:");
-            ArrayAssort arr1 = new ArrayAssort(100, 3, ArrayAssort.SORTING_DIR.ASC_SORT);
-          
-
+            ArrayAssort arr1 = new ArrayAssort(100, 10, 100, ArrayAssort.SORTING_DIR.ASC_SORT);
         }
     }
 }
