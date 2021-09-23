@@ -16,44 +16,89 @@ namespace Lab1_MSD
         public enum SORTING_TYPE { SHAKER_SORT, INSERTION_SORT };
 
         //PRIVATE VARs
-        private int[] arr;
+        private int[] InitialArr;
+        private int[] SortedArr;
         private SORTING_TYPE SType;
         private SORTING_DIR  SDir;
-
+        private int SwapCounter = 0;
+        private int ComparesCounter;
 
         //метод обміну елементів
-        static void Swap(ref int e1, ref int e2)
+        private void Swap(ref int e1, ref int e2)
         {
             var temp = e1;
             e1 = e2;
             e2 = temp;
+            SwapCounter++;
+
         }
 
         //сортування вставками
-        private void InsertionSort(SORTING_DIR Dir)
+     
+        public void InsertionSort(SORTING_DIR Dir)
         {
+            SortedArr  = (int[])InitialArr.Clone();
             bool isSortAsc = (Dir == SORTING_DIR.ASC_SORT) ? true : false;
-            var len = arr.Length;
-            for (int i = isSortAsc ? 0 : (len - 1);
-                isSortAsc ? (i < len) : (i >= 0);
-                i += isSortAsc ? 1 : -1)
+            SwapCounter = 0;
+            ComparesCounter = 0;
+            for (int i = 1; i < SortedArr.Length; i++)
             {
-                var key = arr[i];
+                var key = SortedArr[i];
                 var j = i;
-                var inc = isSortAsc ? -1 : 1;
-                while (isSortAsc ? ((j > 1) && (arr[j + inc] > key)) : ( j < (len - 1)  && (arr[j + inc] < key)) )
+
+                //while ((j > 1) && (isSortAsc ? (SortedArr[j - 1] > key) : (SortedArr[j - 1] < key)))
+                while ((j > 0) && (isSortAsc ? (SortedArr[j - 1] > key) : (SortedArr[j - 1] < key)))
                 {
-                    Swap(ref arr[j + inc], ref arr[j]);
-                    j += inc;
+                    Swap(ref SortedArr[j - 1], ref SortedArr[j]);
+                    j--;
+                    ComparesCounter += 2;
                 }
 
-                arr[j] = key;
+                if(j <= 0)
+                    ComparesCounter += 1;
+                else
+                    ComparesCounter +=2;
+
+                SortedArr[j] = key;
             }
         }
-
-        private void ShakerSort(SORTING_DIR Dir)
+        public void ShakerSort(SORTING_DIR Dir)
         {
+            SortedArr = (int[])InitialArr.Clone();
+            bool isSortAsc = (Dir == SORTING_DIR.ASC_SORT) ? true : false;
+            SwapCounter = 0;
+            ComparesCounter = 0;
+            for (var i = 0; i < SortedArr.Length / 2; i++)
+            {
+                var swapFlag = false;
+                // pass from left to right
+                for (var j = i; j < SortedArr.Length - i - 1; j++)
+                {
+                    if (isSortAsc ? (SortedArr[j] > SortedArr[j + 1]) : (SortedArr[j] < SortedArr[j + 1]))
+                    {
+                        Swap(ref SortedArr[j], ref SortedArr[j + 1]);
+                        swapFlag = true;
+                    }
+                    ComparesCounter += 1;
+                }
 
+                // pass from right to left
+                for (var j = SortedArr.Length - 2 - i; j > i; j--)
+                {
+                    if (isSortAsc ? (SortedArr[j - 1] > SortedArr[j]) : (SortedArr[j - 1] < SortedArr[j]))
+                    {
+                        Swap(ref SortedArr[j - 1], ref SortedArr[j]);
+                        swapFlag = true;
+                    }
+                    ComparesCounter += 1;
+                }
+
+                // if there were no exchanges, exit
+                if (!swapFlag)
+                {
+                    break;
+                }
+            }
         }
 
         //PRIVATE FUNCTIONS
@@ -69,11 +114,11 @@ namespace Lab1_MSD
         //PUBLIC FUNCTIONS
         public ArrayAssort(int ArraySize, int start, int end, SORTING_DIR d = SORTING_DIR.RND_SORT, SORTING_TYPE t = SORTING_TYPE.INSERTION_SORT)
         {
-            arr = new int[ArraySize];
+            InitialArr = new int[ArraySize];
             var rand = new Random();
             for (int i = 0; i < ArraySize; i++)
             {
-                arr[i] = rand.Next(start, end+1);
+                InitialArr[i] = rand.Next(start, end+1);
             }
             SDir = d;
             SType = t;
@@ -86,9 +131,10 @@ namespace Lab1_MSD
                         break;
 
                     case SORTING_TYPE.SHAKER_SORT:
-
+                        ShakerSort(SDir);
                         break;
                 }
+                InitialArr = (int[])SortedArr.Clone();
             }
         }
 
@@ -99,8 +145,15 @@ namespace Lab1_MSD
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to sorting program!\nChoose the size of array.\n Rows:");
-            ArrayAssort arr1 = new ArrayAssort(100, 10, 100, ArrayAssort.SORTING_DIR.ASC_SORT);
+            int Inp_size,
+                Inp_start,
+                Inp_end;
+            Console.WriteLine("Вітаємо у програмі сортуванн!\nВиберіть довжину масиву:");
+            Inp_size = Convert.ToInt32(Console.ReadLine());
+            Inp_start = Convert.ToInt32(Console.ReadLine());
+            Inp_end = Convert.ToInt32(Console.ReadLine());
+            ArrayAssort arr1 = new ArrayAssort(Inp_size, 100, 200, ArrayAssort.SORTING_DIR.ASC_SORT, ArrayAssort.SORTING_TYPE.SHAKER_SORT);
+            arr1.InsertionSort(ArrayAssort.SORTING_DIR.DESC_SORT);
         }
     }
 }
