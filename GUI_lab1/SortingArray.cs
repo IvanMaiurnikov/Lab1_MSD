@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-
-
-namespace Lab1_MSD
+namespace Lab1.MSD
 {
-    public class ArrayAssort
+    public class SortingArray
     {
         // PUBLIC TYPES
         public enum SORTING_DIR { RND_SORT, ASC_SORT, DESC_SORT };
@@ -42,10 +39,10 @@ namespace Lab1_MSD
             bool isSortAsc = (Dir == SORTING_DIR.ASC_SORT) ? true : false;
             SwapCounter = 0;
             ComparesCounter = 0;
-            StepString = "*******************\nInsertion method\n Initial state:\n";
-            StepString += string.Join(", ", SortedArr);
-            StepString += "\n------------------\n";
-            Console.WriteLine("{ 0 }" + StepString);
+            Array.Clear(statisticMsgs, 0, statisticMsgs.Length);
+            statisticMsgs.Append("*******************\nInsertion method\n Initial state:\n");
+            statisticMsgs.Append(string.Join(", ", SortedArr));
+            statisticMsgs.Append("{ 0 }\n------------------\n");
             for (int i = 1; i < SortedArr.Length; i++)
             {
                 var key = SortedArr[i];
@@ -57,10 +54,10 @@ namespace Lab1_MSD
                     Swap(ref SortedArr[j - 1], ref SortedArr[j]);
                     j--;
                     ComparesCounter += 1;
-                    StepString += string.Join(", ", SortedArr);
-                    StepString += "\n";
+                    statisticMsgs.Append(string.Join(", ", SortedArr));
+                    statisticMsgs.Append("\n");
                 }
-                StepString += "\n--------------------\n";
+                statisticMsgs.Append("\n--------------------\n");
                 if (j <= 0)
                     ComparesCounter += 1;
                 else
@@ -68,8 +65,7 @@ namespace Lab1_MSD
 
                 SortedArr[j] = key;
             }
-            StepString += "\n--------------------------------\nCompares: " + ComparesCounter + " Swaps: " + SwapCounter + "\n";
-            Console.WriteLine(StepString);
+            statisticMsgs.Append("\n--------------------------------\nCompares: " + ComparesCounter + " Swaps: " + SwapCounter + "\n");
         }
 
 
@@ -79,14 +75,15 @@ namespace Lab1_MSD
             bool isSortAsc = (Dir == SORTING_DIR.ASC_SORT) ? true : false;
             SwapCounter = 0;
             ComparesCounter = 0;
-            StepString = "*******************\nShaker method\n Initial state:\n";
-            StepString += string.Join(", ", SortedArr);
-            StepString += "\n------------------\n";
+            Array.Clear(statisticMsgs, 0, statisticMsgs.Length);
+            statisticMsgs.Append("*******************\nShaker method\n Initial state:\n");
+            statisticMsgs.Append(string.Join(", ", SortedArr));
+            statisticMsgs.Append("\n------------------\n");
             for (var i = 0; i < SortedArr.Length / 2; i++)
             {
                 var swapFlag = false;
                 // pass from left to right
-                StepString += "L->R\n";
+                statisticMsgs.Append("L->R\n");
                 for (var j = i; j < SortedArr.Length - i - 1; j++)
                 {
                     if (isSortAsc ? (SortedArr[j] > SortedArr[j + 1]) : (SortedArr[j] < SortedArr[j + 1]))
@@ -95,12 +92,12 @@ namespace Lab1_MSD
                         swapFlag = true;
                     }
                     ComparesCounter += 1;
-                    StepString += string.Join(", ", SortedArr);
-                    StepString += "\n";
+                    statisticMsgs.Append(string.Join(", ", SortedArr));
+                    statisticMsgs.Append("\n");
                 }
 
                 // pass from right to left
-                StepString += "R->L\n";
+                statisticMsgs.Append("R->L\n");
                 for (var j = SortedArr.Length - 2 - i; j > i; j--)
                 {
                     if (isSortAsc ? (SortedArr[j - 1] > SortedArr[j]) : (SortedArr[j - 1] < SortedArr[j]))
@@ -109,8 +106,8 @@ namespace Lab1_MSD
                         swapFlag = true;
                     }
                     ComparesCounter += 1;
-                    StepString += string.Join(", ", SortedArr);
-                    StepString += "\n";
+                    statisticMsgs.Append(string.Join(", ", SortedArr));
+                    statisticMsgs.Append("\n");
                 }
 
                 // if there were no exchanges, exit
@@ -119,15 +116,18 @@ namespace Lab1_MSD
                     break;
                 }
             }
-            StepString += "\n--------------------------------\nCompares: " + ComparesCounter + " Swaps: " + SwapCounter + "\n";
-            Console.WriteLine(StepString);
+            statisticMsgs.Append("\n--------------------------------\nCompares: " + ComparesCounter + " Swaps: " + SwapCounter + "\n");
         }
 
         //PRIVATE FUNCTIONS
-    
 
         //PUBLIC FUNCTIONS
-        public ArrayAssort(int ArraySize, int start, int end, SORTING_DIR d = SORTING_DIR.RND_SORT, SORTING_TYPE t = SORTING_TYPE.INSERTION_SORT)
+        public SortingArray()
+        {
+
+        }
+
+        public SortingArray(int ArraySize, int start, int end, SORTING_DIR d = SORTING_DIR.RND_SORT, SORTING_TYPE t = SORTING_TYPE.INSERTION_SORT)
         {
             InitialArr = new int[ArraySize];
             var rand = new Random();
@@ -152,17 +152,24 @@ namespace Lab1_MSD
                 InitialArr = (int[])SortedArr.Clone();
             }
         }
+
         public int getSwapCounter()
         {
             return SwapCounter;
         }
 
-        public int getComparesCounter() 
+        public int getComparesCounter()
         {
             return ComparesCounter;
         }
-    }
 
+        public string[] getStatisticMsgs()
+        {
+            return statisticMsgs;
+        }
+
+    }
+    /*
     class Program
     {
         static void Main(string[] args)
@@ -180,23 +187,26 @@ namespace Lab1_MSD
             Inp_end = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Напрямок сортування [0-RANDOM, 1-ASC, 2-DESC]:");
             Inp_end = Convert.ToInt32(Console.ReadLine());
-            if (Inp_start < Inp_end) {
+            if (Inp_start < Inp_end)
+            {
                 Console.WriteLine("Choose the way you want to sort the array[ 1 - Shaker method; 2 - Insertion Sort");
 
                 Inp_Opt = Convert.ToInt32(Console.ReadLine());
 
                 ArrayAssort arr1 = new ArrayAssort(Inp_size, Inp_start, Inp_end, ArrayAssort.SORTING_DIR.ASC_SORT, ArrayAssort.SORTING_TYPE.SHAKER_SORT);
-                switch (Inp_Opt) {
+                switch (Inp_Opt)
+                {
                     case 1:
-                
+
                         arr1.InsertionSort(ArrayAssort.SORTING_DIR.DESC_SORT);
                         break;
                     case 2:
-                
+
                         break;
 
-             }
+                }
             }
         }
     }
+    */
 }
