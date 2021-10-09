@@ -1,7 +1,7 @@
 ﻿
 namespace GUI_lab1
 {
-    partial class Form1
+    partial class ArraySortingForm
     {
         /// <summary>
         /// Required designer variable.
@@ -42,7 +42,7 @@ namespace GUI_lab1
             this.maskedTextBoxNumElements = new System.Windows.Forms.MaskedTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBoxStatMsgs = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxSortingLog = new System.Windows.Forms.TextBox();
             this.groupBoxSortedArray = new System.Windows.Forms.GroupBox();
             this.textBoxSortedArray = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -75,8 +75,7 @@ namespace GUI_lab1
             this.radioButtonShaker.Location = new System.Drawing.Point(19, 65);
             this.radioButtonShaker.Name = "radioButtonShaker";
             this.radioButtonShaker.Size = new System.Drawing.Size(79, 21);
-            this.radioButtonShaker.TabIndex = 2;
-            this.radioButtonShaker.TabStop = true;
+            this.radioButtonShaker.TabIndex = 1;
             this.radioButtonShaker.Text = "Шейкер";
             this.radioButtonShaker.UseVisualStyleBackColor = true;
             this.radioButtonShaker.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
@@ -84,10 +83,11 @@ namespace GUI_lab1
             // radioButtonInsertion
             // 
             this.radioButtonInsertion.AutoSize = true;
+            this.radioButtonInsertion.Checked = true;
             this.radioButtonInsertion.Location = new System.Drawing.Point(19, 37);
             this.radioButtonInsertion.Name = "radioButtonInsertion";
             this.radioButtonInsertion.Size = new System.Drawing.Size(82, 21);
-            this.radioButtonInsertion.TabIndex = 1;
+            this.radioButtonInsertion.TabIndex = 0;
             this.radioButtonInsertion.TabStop = true;
             this.radioButtonInsertion.Text = "Вставка";
             this.radioButtonInsertion.UseVisualStyleBackColor = true;
@@ -110,8 +110,7 @@ namespace GUI_lab1
             this.radioButtonDesc.Location = new System.Drawing.Point(19, 90);
             this.radioButtonDesc.Name = "radioButtonDesc";
             this.radioButtonDesc.Size = new System.Drawing.Size(106, 21);
-            this.radioButtonDesc.TabIndex = 2;
-            this.radioButtonDesc.TabStop = true;
+            this.radioButtonDesc.TabIndex = 4;
             this.radioButtonDesc.Text = "Зменшення";
             this.radioButtonDesc.UseVisualStyleBackColor = true;
             // 
@@ -121,18 +120,18 @@ namespace GUI_lab1
             this.radioButtonAsc.Location = new System.Drawing.Point(19, 62);
             this.radioButtonAsc.Name = "radioButtonAsc";
             this.radioButtonAsc.Size = new System.Drawing.Size(107, 21);
-            this.radioButtonAsc.TabIndex = 1;
-            this.radioButtonAsc.TabStop = true;
+            this.radioButtonAsc.TabIndex = 3;
             this.radioButtonAsc.Text = "Збільшення";
             this.radioButtonAsc.UseVisualStyleBackColor = true;
             // 
             // radioButtonAssorted
             // 
             this.radioButtonAssorted.AutoSize = true;
+            this.radioButtonAssorted.Checked = true;
             this.radioButtonAssorted.Location = new System.Drawing.Point(19, 34);
             this.radioButtonAssorted.Name = "radioButtonAssorted";
             this.radioButtonAssorted.Size = new System.Drawing.Size(128, 21);
-            this.radioButtonAssorted.TabIndex = 0;
+            this.radioButtonAssorted.TabIndex = 2;
             this.radioButtonAssorted.TabStop = true;
             this.radioButtonAssorted.Text = "Не сортований";
             this.radioButtonAssorted.UseVisualStyleBackColor = true;
@@ -143,7 +142,7 @@ namespace GUI_lab1
             this.textBoxAssorted.Multiline = true;
             this.textBoxAssorted.Name = "textBoxAssorted";
             this.textBoxAssorted.Size = new System.Drawing.Size(551, 80);
-            this.textBoxAssorted.TabIndex = 2;
+            this.textBoxAssorted.TabIndex = 10;
             // 
             // groupBox3
             // 
@@ -160,7 +159,7 @@ namespace GUI_lab1
             this.buttonGenerateArr.Location = new System.Drawing.Point(12, 365);
             this.buttonGenerateArr.Name = "buttonGenerateArr";
             this.buttonGenerateArr.Size = new System.Drawing.Size(258, 28);
-            this.buttonGenerateArr.TabIndex = 4;
+            this.buttonGenerateArr.TabIndex = 8;
             this.buttonGenerateArr.Text = "Генерувати масив";
             this.buttonGenerateArr.UseVisualStyleBackColor = true;
             this.buttonGenerateArr.Click += new System.EventHandler(this.buttonGenerateArr_Click);
@@ -172,6 +171,7 @@ namespace GUI_lab1
             this.maskedTextBoxNumElements.Name = "maskedTextBoxNumElements";
             this.maskedTextBoxNumElements.Size = new System.Drawing.Size(29, 22);
             this.maskedTextBoxNumElements.TabIndex = 5;
+            this.maskedTextBoxNumElements.Text = "10";
             this.maskedTextBoxNumElements.ValidatingType = typeof(int);
             // 
             // label1
@@ -185,21 +185,21 @@ namespace GUI_lab1
             // 
             // groupBoxStatMsgs
             // 
-            this.groupBoxStatMsgs.Controls.Add(this.textBox1);
+            this.groupBoxStatMsgs.Controls.Add(this.textBoxSortingLog);
             this.groupBoxStatMsgs.Location = new System.Drawing.Point(276, 137);
             this.groupBoxStatMsgs.Name = "groupBoxStatMsgs";
             this.groupBoxStatMsgs.Size = new System.Drawing.Size(557, 197);
             this.groupBoxStatMsgs.TabIndex = 7;
             this.groupBoxStatMsgs.TabStop = false;
-            this.groupBoxStatMsgs.Text = "Хід сортировки";
+            this.groupBoxStatMsgs.Text = "Хід сортування";
             // 
-            // textBox1
+            // textBoxSortingLog
             // 
-            this.textBox1.Location = new System.Drawing.Point(6, 21);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(545, 170);
-            this.textBox1.TabIndex = 0;
+            this.textBoxSortingLog.Location = new System.Drawing.Point(6, 21);
+            this.textBoxSortingLog.Multiline = true;
+            this.textBoxSortingLog.Name = "textBoxSortingLog";
+            this.textBoxSortingLog.Size = new System.Drawing.Size(545, 170);
+            this.textBoxSortingLog.TabIndex = 11;
             // 
             // groupBoxSortedArray
             // 
@@ -207,7 +207,7 @@ namespace GUI_lab1
             this.groupBoxSortedArray.Location = new System.Drawing.Point(276, 340);
             this.groupBoxSortedArray.Name = "groupBoxSortedArray";
             this.groupBoxSortedArray.Size = new System.Drawing.Size(551, 98);
-            this.groupBoxSortedArray.TabIndex = 8;
+            this.groupBoxSortedArray.TabIndex = 4;
             this.groupBoxSortedArray.TabStop = false;
             this.groupBoxSortedArray.Text = "Сортований масив:";
             // 
@@ -217,7 +217,7 @@ namespace GUI_lab1
             this.textBoxSortedArray.Multiline = true;
             this.textBoxSortedArray.Name = "textBoxSortedArray";
             this.textBoxSortedArray.Size = new System.Drawing.Size(539, 71);
-            this.textBoxSortedArray.TabIndex = 0;
+            this.textBoxSortedArray.TabIndex = 12;
             // 
             // label2
             // 
@@ -234,7 +234,8 @@ namespace GUI_lab1
             this.maskedTextBoxStartVal.Mask = "000";
             this.maskedTextBoxStartVal.Name = "maskedTextBoxStartVal";
             this.maskedTextBoxStartVal.Size = new System.Drawing.Size(29, 22);
-            this.maskedTextBoxStartVal.TabIndex = 9;
+            this.maskedTextBoxStartVal.TabIndex = 6;
+            this.maskedTextBoxStartVal.Text = "1";
             this.maskedTextBoxStartVal.ValidatingType = typeof(int);
             // 
             // label3
@@ -252,7 +253,8 @@ namespace GUI_lab1
             this.maskedTextBoxEndVal.Mask = "000";
             this.maskedTextBoxEndVal.Name = "maskedTextBoxEndVal";
             this.maskedTextBoxEndVal.Size = new System.Drawing.Size(29, 22);
-            this.maskedTextBoxEndVal.TabIndex = 11;
+            this.maskedTextBoxEndVal.TabIndex = 7;
+            this.maskedTextBoxEndVal.Text = "100";
             this.maskedTextBoxEndVal.ValidatingType = typeof(int);
             // 
             // buttonSorting
@@ -260,11 +262,12 @@ namespace GUI_lab1
             this.buttonSorting.Location = new System.Drawing.Point(12, 399);
             this.buttonSorting.Name = "buttonSorting";
             this.buttonSorting.Size = new System.Drawing.Size(258, 28);
-            this.buttonSorting.TabIndex = 13;
+            this.buttonSorting.TabIndex = 9;
             this.buttonSorting.Text = "Сортувати";
             this.buttonSorting.UseVisualStyleBackColor = true;
+            this.buttonSorting.Click += new System.EventHandler(this.buttonSorting_Click);
             // 
-            // Form1
+            // ArraySortingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -282,8 +285,8 @@ namespace GUI_lab1
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "ArraySortingForm";
+            this.Text = "Сортування масиву";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -314,7 +317,7 @@ namespace GUI_lab1
         private System.Windows.Forms.MaskedTextBox maskedTextBoxNumElements;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBoxStatMsgs;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxSortingLog;
         private System.Windows.Forms.GroupBox groupBoxSortedArray;
         private System.Windows.Forms.TextBox textBoxSortedArray;
         private System.Windows.Forms.Label label2;

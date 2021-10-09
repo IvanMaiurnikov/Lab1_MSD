@@ -15,7 +15,7 @@ namespace Lab1.MSD
         //PRIVATE VARs
         private int[] InitialArr;
         private int[] SortedArr;
-        private string[] statisticMsgs;
+        private List<string> sortingLog;
         private SORTING_TYPE SType;
         private SORTING_DIR SDir;
         private int SwapCounter = 0;
@@ -39,10 +39,12 @@ namespace Lab1.MSD
             bool isSortAsc = (Dir == SORTING_DIR.ASC_SORT) ? true : false;
             SwapCounter = 0;
             ComparesCounter = 0;
-            Array.Clear(statisticMsgs, 0, statisticMsgs.Length);
-            statisticMsgs.Append("*******************\nInsertion method\n Initial state:\n");
-            statisticMsgs.Append(string.Join(", ", SortedArr));
-            statisticMsgs.Append("{ 0 }\n------------------\n");
+            sortingLog = new List<string> { };
+            sortingLog.Add("*******************");
+            sortingLog.Add("Insertion method\n Initial state:\n");
+            sortingLog.Add(string.Join(", ", SortedArr));
+            sortingLog.Add("{ 0 }");
+            sortingLog.Add("------------------");
             for (int i = 1; i < SortedArr.Length; i++)
             {
                 var key = SortedArr[i];
@@ -54,10 +56,9 @@ namespace Lab1.MSD
                     Swap(ref SortedArr[j - 1], ref SortedArr[j]);
                     j--;
                     ComparesCounter += 1;
-                    statisticMsgs.Append(string.Join(", ", SortedArr));
-                    statisticMsgs.Append("\n");
+                    sortingLog.Add(string.Join(", ", SortedArr));
                 }
-                statisticMsgs.Append("\n--------------------\n");
+                sortingLog.Add("--------------------");
                 if (j <= 0)
                     ComparesCounter += 1;
                 else
@@ -65,7 +66,8 @@ namespace Lab1.MSD
 
                 SortedArr[j] = key;
             }
-            statisticMsgs.Append("\n--------------------------------\nCompares: " + ComparesCounter + " Swaps: " + SwapCounter + "\n");
+            sortingLog.Add("\n--------------------------------");
+            sortingLog.Add("Compares: " + ComparesCounter + " Swaps: " + SwapCounter + "\n");
         }
 
 
@@ -75,15 +77,15 @@ namespace Lab1.MSD
             bool isSortAsc = (Dir == SORTING_DIR.ASC_SORT) ? true : false;
             SwapCounter = 0;
             ComparesCounter = 0;
-            Array.Clear(statisticMsgs, 0, statisticMsgs.Length);
-            statisticMsgs.Append("*******************\nShaker method\n Initial state:\n");
-            statisticMsgs.Append(string.Join(", ", SortedArr));
-            statisticMsgs.Append("\n------------------\n");
+            sortingLog = new List<string> { };
+            sortingLog.Add("*******************\nShaker method\n Initial state:\n");
+            sortingLog.Add(string.Join(", ", SortedArr));
+            sortingLog.Add("\n------------------\n");
             for (var i = 0; i < SortedArr.Length / 2; i++)
             {
                 var swapFlag = false;
                 // pass from left to right
-                statisticMsgs.Append("L->R\n");
+                sortingLog.Add("L->R\n");
                 for (var j = i; j < SortedArr.Length - i - 1; j++)
                 {
                     if (isSortAsc ? (SortedArr[j] > SortedArr[j + 1]) : (SortedArr[j] < SortedArr[j + 1]))
@@ -92,12 +94,12 @@ namespace Lab1.MSD
                         swapFlag = true;
                     }
                     ComparesCounter += 1;
-                    statisticMsgs.Append(string.Join(", ", SortedArr));
-                    statisticMsgs.Append("\n");
+                    sortingLog.Add(string.Join(", ", SortedArr));
+                    sortingLog.Add("\n");
                 }
 
                 // pass from right to left
-                statisticMsgs.Append("R->L\n");
+                sortingLog.Add("R->L\n");
                 for (var j = SortedArr.Length - 2 - i; j > i; j--)
                 {
                     if (isSortAsc ? (SortedArr[j - 1] > SortedArr[j]) : (SortedArr[j - 1] < SortedArr[j]))
@@ -106,8 +108,8 @@ namespace Lab1.MSD
                         swapFlag = true;
                     }
                     ComparesCounter += 1;
-                    statisticMsgs.Append(string.Join(", ", SortedArr));
-                    statisticMsgs.Append("\n");
+                    sortingLog.Add(string.Join(", ", SortedArr));
+                    sortingLog.Add("\n");
                 }
 
                 // if there were no exchanges, exit
@@ -116,7 +118,8 @@ namespace Lab1.MSD
                     break;
                 }
             }
-            statisticMsgs.Append("\n--------------------------------\nCompares: " + ComparesCounter + " Swaps: " + SwapCounter + "\n");
+            sortingLog.Add("--------------------------------");
+            sortingLog.Add("Compares: " + ComparesCounter + " Swaps: " + SwapCounter);
         }
 
         //PRIVATE FUNCTIONS
@@ -129,8 +132,14 @@ namespace Lab1.MSD
 
         public SortingArray(int ArraySize, int start, int end, SORTING_DIR d = SORTING_DIR.RND_SORT, SORTING_TYPE t = SORTING_TYPE.INSERTION_SORT)
         {
-            InitialArr = new int[ArraySize];
+            
+            generateArray(ArraySize, start, end, d, t);
+        }
+
+        public int generateArray(int ArraySize, int start, int end, SORTING_DIR d = SORTING_DIR.RND_SORT, SORTING_TYPE t = SORTING_TYPE.INSERTION_SORT)
+        {
             var rand = new Random();
+            InitialArr = new int[ArraySize];
             for (int i = 0; i < ArraySize; i++)
             {
                 InitialArr[i] = rand.Next(start, end + 1);
@@ -151,6 +160,23 @@ namespace Lab1.MSD
                 }
                 InitialArr = (int[])SortedArr.Clone();
             }
+            return 0;
+        }
+
+        public void doSorting(SORTING_TYPE t, SORTING_DIR d)
+        {
+            switch (t) 
+            {
+                case SORTING_TYPE.INSERTION_SORT:
+                    InsertionSort(d);
+                    break;
+                case SORTING_TYPE.SHAKER_SORT:
+                    ShakerSort(d);
+                    break;
+                default:
+                    break;
+            }
+                
         }
 
         public int getSwapCounter()
@@ -163,11 +189,18 @@ namespace Lab1.MSD
             return ComparesCounter;
         }
 
-        public string[] getStatisticMsgs()
+         public int[] getInitialArr()
         {
-            return statisticMsgs;
+            return InitialArr;
         }
-
+        public int[] getSortedArr()
+        {
+            return SortedArr;
+        }
+        public List<string> getSortingLog()
+        {
+            return sortingLog;
+        }
     }
     /*
     class Program
